@@ -1,0 +1,850 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      font-size: 11px;
+      color: #333;
+      line-height: 1.5;
+    }
+
+    /* Cover Page */
+    .cover-page {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      page-break-after: always;
+    }
+
+    .cover-header {
+      background: #1a365d;
+      padding: 20px 40px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .cover-header .logo {
+      font-size: 24px;
+      font-weight: 700;
+      color: white;
+      letter-spacing: 1px;
+    }
+
+    .cover-header .badges {
+      display: flex;
+      gap: 12px;
+    }
+
+    .cover-header .badge {
+      background: rgba(255,255,255,0.15);
+      color: white;
+      padding: 4px 10px;
+      border-radius: 4px;
+      font-size: 9px;
+      font-weight: 600;
+    }
+
+    .cover-banner {
+      background: #dc2626;
+      color: white;
+      padding: 12px 40px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .cover-banner .estimate-number {
+      font-size: 18px;
+      font-weight: 700;
+      letter-spacing: 1px;
+    }
+
+    .cover-content {
+      flex: 1;
+      padding: 40px;
+    }
+
+    .customer-name {
+      font-size: 36px;
+      font-weight: 700;
+      color: #1a365d;
+      margin-bottom: 20px;
+    }
+
+    .customer-address {
+      font-size: 14px;
+      color: #666;
+      line-height: 1.6;
+      margin-bottom: 40px;
+    }
+
+    .proposal-dates {
+      display: flex;
+      gap: 40px;
+      margin-bottom: 40px;
+    }
+
+    .proposal-dates .date-block {
+      font-size: 12px;
+    }
+
+    .proposal-dates .date-label {
+      color: #666;
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 4px;
+    }
+
+    .proposal-dates .date-value {
+      font-weight: 600;
+      color: #1a365d;
+      font-size: 14px;
+    }
+
+    .cover-hero {
+      background: linear-gradient(135deg, #f0f4f8 0%, #e2e8f0 100%);
+      height: 200px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 40px;
+    }
+
+    .cover-hero-text {
+      font-size: 18px;
+      color: #94a3b8;
+      font-weight: 500;
+    }
+
+    .prepared-by {
+      background: #f8fafc;
+      padding: 20px 24px;
+      border-radius: 8px;
+      margin-bottom: 20px;
+    }
+
+    .prepared-by-label {
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: #666;
+      margin-bottom: 8px;
+    }
+
+    .prepared-by-name {
+      font-size: 16px;
+      font-weight: 600;
+      color: #1a365d;
+    }
+
+    .prepared-by-title {
+      font-size: 12px;
+      color: #666;
+    }
+
+    .cover-footer {
+      border-top: 1px solid #e2e8f0;
+      padding: 20px 40px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 11px;
+      color: #666;
+    }
+
+    /* Page Header */
+    .page-header {
+      background: #dc2626;
+      color: white;
+      padding: 10px 32px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 24px;
+    }
+
+    .page-header .estimate-number {
+      font-weight: 700;
+      font-size: 13px;
+    }
+
+    /* Section Styles */
+    .section {
+      padding: 0 32px 24px 32px;
+    }
+
+    .section-title {
+      font-size: 18px;
+      font-weight: 700;
+      color: #1a365d;
+      border-bottom: 3px solid #1a365d;
+      padding-bottom: 8px;
+      margin-bottom: 16px;
+    }
+
+    .section-subtitle {
+      font-size: 14px;
+      font-weight: 600;
+      color: #1a365d;
+      margin-bottom: 12px;
+      margin-top: 16px;
+    }
+
+    .section-content {
+      font-size: 11px;
+      line-height: 1.7;
+      color: #444;
+      white-space: pre-wrap;
+    }
+
+    .section-intro {
+      font-size: 12px;
+      color: #666;
+      margin-bottom: 16px;
+      font-style: italic;
+    }
+
+    /* Info Grid */
+    .info-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 24px;
+      margin-bottom: 20px;
+    }
+
+    .info-block {
+      font-size: 11px;
+    }
+
+    .info-block .label {
+      font-weight: 600;
+      color: #1a365d;
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 4px;
+    }
+
+    .info-block .value {
+      font-size: 12px;
+      line-height: 1.5;
+    }
+
+    /* Tables */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 10px;
+      margin-bottom: 16px;
+    }
+
+    thead {
+      background: #1a365d;
+      color: white;
+    }
+
+    thead th {
+      padding: 8px 10px;
+      text-align: left;
+      font-weight: 600;
+      font-size: 9px;
+      text-transform: uppercase;
+      letter-spacing: 0.3px;
+    }
+
+    thead th.right { text-align: right; }
+    thead th.center { text-align: center; }
+
+    tbody tr {
+      border-bottom: 1px solid #e2e8f0;
+    }
+
+    tbody tr:nth-child(even) {
+      background: #f8fafc;
+    }
+
+    tbody td {
+      padding: 8px 10px;
+      vertical-align: top;
+    }
+
+    tbody td.right { text-align: right; }
+    tbody td.center { text-align: center; }
+    tbody td.desc { max-width: 250px; }
+
+    /* Location Group Header */
+    .location-header {
+      background: #e2e8f0;
+      padding: 10px 16px;
+      font-size: 13px;
+      font-weight: 600;
+      color: #1a365d;
+      margin-top: 20px;
+      margin-bottom: 0;
+      border-radius: 4px 4px 0 0;
+    }
+
+    .location-header:first-child {
+      margin-top: 0;
+    }
+
+    /* Summary Table */
+    .summary-section {
+      margin-top: 32px;
+      padding: 24px;
+      background: #f8fafc;
+      border-radius: 8px;
+    }
+
+    .summary-table {
+      width: 400px;
+      margin-left: auto;
+      font-size: 12px;
+    }
+
+    .summary-table td {
+      padding: 6px 12px;
+    }
+
+    .summary-table .label {
+      font-weight: 400;
+      color: #666;
+    }
+
+    .summary-table .value {
+      text-align: right;
+      font-weight: 500;
+    }
+
+    .summary-table tr.subtotal {
+      border-top: 1px solid #e2e8f0;
+    }
+
+    .summary-table tr.total {
+      border-top: 2px solid #1a365d;
+    }
+
+    .summary-table tr.total td {
+      font-weight: 700;
+      font-size: 16px;
+      padding-top: 12px;
+      color: #1a365d;
+    }
+
+    /* Signature Block */
+    .signature-section {
+      margin-top: 40px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 40px;
+    }
+
+    .signature-block {
+      border: 1px solid #e2e8f0;
+      padding: 20px;
+      border-radius: 8px;
+    }
+
+    .signature-block h4 {
+      font-size: 12px;
+      font-weight: 600;
+      color: #1a365d;
+      margin-bottom: 16px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .signature-line {
+      display: flex;
+      align-items: flex-end;
+      margin-bottom: 16px;
+    }
+
+    .signature-line .label {
+      font-size: 10px;
+      color: #666;
+      width: 100px;
+    }
+
+    .signature-line .line {
+      flex: 1;
+      border-bottom: 1px solid #333;
+      margin-left: 8px;
+      min-height: 20px;
+    }
+
+    /* Terms Section */
+    .terms-section {
+      page-break-before: always;
+    }
+
+    .terms-content {
+      column-count: 2;
+      column-gap: 32px;
+      font-size: 9px;
+      line-height: 1.6;
+    }
+
+    .terms-content h4 {
+      font-size: 11px;
+      font-weight: 600;
+      color: #1a365d;
+      margin-top: 12px;
+      margin-bottom: 6px;
+    }
+
+    .terms-content h4:first-child {
+      margin-top: 0;
+    }
+
+    .terms-content p {
+      margin-bottom: 8px;
+    }
+
+    /* Footer */
+    .page-footer {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      padding: 8px 32px;
+      font-size: 9px;
+      color: #999;
+      text-align: center;
+      border-top: 1px solid #e2e8f0;
+      background: white;
+    }
+
+    .page-break { page-break-before: always; }
+
+    /* Utility */
+    .text-muted { color: #666; }
+    .text-small { font-size: 9px; }
+    .mt-4 { margin-top: 16px; }
+    .mb-4 { margin-bottom: 16px; }
+  </style>
+</head>
+<body>
+  <!-- Cover Page -->
+  <div class="cover-page">
+    <div class="cover-header">
+      <div class="logo">TSI</div>
+      <div class="badges">
+        <span class="badge">AVIGILON ALTA</span>
+        <span class="badge">GENETEC</span>
+        <span class="badge">AXIS</span>
+      </div>
+    </div>
+
+    <div class="cover-banner">
+      <span class="estimate-number">{{#if estimate}}{{estimate.tranId}}{{else}}{{config.estimateNumber}}{{/if}}</span>
+      <span>Project Proposal</span>
+    </div>
+
+    <div class="cover-content">
+      <div class="customer-name">
+        {{#if customer}}{{customer.name}}{{else}}{{config.customerName}}{{/if}}
+      </div>
+
+      {{#if customer}}
+      <div class="customer-address">
+        {{#if customer.billingAddress}}
+        {{customer.billingAddress.addr1}}<br>
+        {{#if customer.billingAddress.addr2}}{{customer.billingAddress.addr2}}<br>{{/if}}
+        {{customer.billingAddress.city}}, {{customer.billingAddress.state}} {{customer.billingAddress.zip}}
+        {{/if}}
+      </div>
+      {{/if}}
+
+      <div class="proposal-dates">
+        <div class="date-block">
+          <div class="date-label">Proposal Issued</div>
+          <div class="date-value">{{formatDate generatedDate}}</div>
+        </div>
+        <div class="date-block">
+          <div class="date-label">Valid Until</div>
+          <div class="date-value">{{formatDate validUntilDate}}</div>
+        </div>
+      </div>
+
+      <div class="cover-hero">
+        <span class="cover-hero-text">Project Site Image</span>
+      </div>
+
+      <div class="prepared-by">
+        <div class="prepared-by-label">Prepared By</div>
+        {{#if estimate}}
+        <div class="prepared-by-name">{{estimate.salesRep}}</div>
+        <div class="prepared-by-title">Account Manager</div>
+        {{else}}
+        <div class="prepared-by-name">TSI Account Team</div>
+        {{/if}}
+      </div>
+    </div>
+
+    <div class="cover-footer">
+      <div>www.tsibusiness.com | (800) 555-1234</div>
+      <div>Technology Solutions Integrator</div>
+    </div>
+  </div>
+
+  <!-- Statement of Work -->
+  <div class="page-header">
+    <span class="estimate-number">{{#if estimate}}{{estimate.tranId}}{{else}}{{config.estimateNumber}}{{/if}}</span>
+    <span>Project Proposal</span>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Statement of Work</div>
+
+    {{#if config.introduction}}
+    <div class="section-intro">{{config.introduction}}</div>
+    {{/if}}
+
+    {{#if config.installationScope}}
+    <div class="section-content">{{config.installationScope}}</div>
+    {{else}}
+    <div class="section-content text-muted">No installation scope defined.</div>
+    {{/if}}
+  </div>
+
+  <!-- Customer Provided Equipment & Services -->
+  {{#if (hasContent config.customerProvidedScope)}}
+  <div class="section">
+    <div class="section-title">Customer Provided Equipment & Services</div>
+    <div class="section-content">{{config.customerProvidedScope}}</div>
+  </div>
+  {{/if}}
+
+  <!-- Professional Services Scope (conditional) -->
+  {{#if showProServicesScope}}
+  <div class="section">
+    <div class="section-title">Professional Services Scope</div>
+    <div class="section-content">{{config.proServicesScope}}</div>
+  </div>
+  {{/if}}
+
+  <!-- Solutions Architect Scope (conditional) -->
+  {{#if showSolutionsArchitectScope}}
+  <div class="section">
+    <div class="section-title">Solutions Architect Scope</div>
+    <div class="section-content">{{config.solutionsArchitectScope}}</div>
+  </div>
+  {{/if}}
+
+  <!-- Constraints & Assumptions -->
+  {{#if (hasContent config.constraintsAssumptions)}}
+  <div class="section">
+    <div class="section-title">Constraints & Assumptions</div>
+    <div class="section-content">{{config.constraintsAssumptions}}</div>
+  </div>
+  {{/if}}
+
+  <!-- Exclusions -->
+  {{#if (hasContent config.exclusions)}}
+  <div class="section">
+    <div class="section-title">Exclusions</div>
+    <div class="section-content">{{config.exclusions}}</div>
+  </div>
+  {{/if}}
+
+  <!-- FOCUS Scope (conditional) -->
+  {{#if showFocusScope}}
+  <div class="section">
+    <div class="section-title">FOCUS Post-Installation Support</div>
+    <div class="section-content">{{config.focusScope}}</div>
+  </div>
+  {{/if}}
+
+  <!-- Proposal Details - Materials & Labor -->
+  <div class="page-break"></div>
+
+  <div class="page-header">
+    <span class="estimate-number">{{#if estimate}}{{estimate.tranId}}{{else}}{{config.estimateNumber}}{{/if}}</span>
+    <span>Proposal Details</span>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Proposal Details</div>
+
+    <!-- Contact Info -->
+    <div class="info-grid">
+      <div class="info-block">
+        <div class="label">Site Address</div>
+        <div class="value">
+          {{#if customer}}
+          {{#if customer.shippingAddress}}
+          {{customer.shippingAddress.addr1}}<br>
+          {{#if customer.shippingAddress.addr2}}{{customer.shippingAddress.addr2}}<br>{{/if}}
+          {{customer.shippingAddress.city}}, {{customer.shippingAddress.state}} {{customer.shippingAddress.zip}}
+          {{else}}
+          See billing address
+          {{/if}}
+          {{else}}
+          Not specified
+          {{/if}}
+        </div>
+      </div>
+      <div class="info-block">
+        <div class="label">Billing Address</div>
+        <div class="value">
+          {{#if customer}}
+          {{#if customer.billingAddress}}
+          {{customer.billingAddress.addr1}}<br>
+          {{#if customer.billingAddress.addr2}}{{customer.billingAddress.addr2}}<br>{{/if}}
+          {{customer.billingAddress.city}}, {{customer.billingAddress.state}} {{customer.billingAddress.zip}}
+          {{/if}}
+          {{else}}
+          Not specified
+          {{/if}}
+        </div>
+      </div>
+      <div class="info-block">
+        <div class="label">Contact</div>
+        <div class="value">
+          {{#if config.contactFirstName}}
+          {{config.contactFirstName}} {{config.contactLastName}}<br>
+          {{/if}}
+          {{#if config.contactEmail}}
+          {{config.contactEmail}}
+          {{/if}}
+        </div>
+      </div>
+    </div>
+
+    <!-- Materials by Location -->
+    {{#each materialsByLocation}}
+    <div class="location-header">{{this.locationName}}</div>
+    <table>
+      <thead>
+        <tr>
+          <th style="width: 50px;">QTY</th>
+          <th style="width: 120px;">ITEM</th>
+          <th>DESCRIPTION</th>
+          <th class="right" style="width: 90px;">UNIT PRICE</th>
+          <th class="right" style="width: 80px;">TARIFF</th>
+          <th class="right" style="width: 100px;">EXT. PRICE</th>
+        </tr>
+      </thead>
+      <tbody>
+        {{#each this.items}}
+        <tr>
+          <td class="center">{{this.quantity}}</td>
+          <td>{{this.partNumber}}</td>
+          <td class="desc">{{this.description}}</td>
+          <td class="right">{{formatCurrency this.unitPrice}}</td>
+          <td class="right">{{formatCurrency this.tariffAmount}}</td>
+          <td class="right">{{formatCurrency this.extPrice}}</td>
+        </tr>
+        {{/each}}
+      </tbody>
+    </table>
+    {{/each}}
+
+    {{#unless materialsByLocation.length}}
+    <p class="text-muted mt-4">No materials have been added to this project.</p>
+    {{/unless}}
+
+    <!-- Labor Table -->
+    {{#if laborItems.length}}
+    <div class="location-header" style="margin-top: 32px;">Labor</div>
+    <table>
+      <thead>
+        <tr>
+          <th style="width: 50px;">QTY</th>
+          <th style="width: 120px;">ITEM</th>
+          <th>DESCRIPTION</th>
+          <th class="right" style="width: 90px;">UNIT PRICE</th>
+          <th class="right" style="width: 80px;">-</th>
+          <th class="right" style="width: 100px;">EXT. PRICE</th>
+        </tr>
+      </thead>
+      <tbody>
+        {{#each laborItems}}
+        <tr>
+          <td class="center">{{this.quantity}}</td>
+          <td>{{this.partNumber}}</td>
+          <td class="desc">{{this.description}}</td>
+          <td class="right">{{formatCurrency this.unitPrice}}</td>
+          <td class="right">-</td>
+          <td class="right">{{formatCurrency this.extPrice}}</td>
+        </tr>
+        {{/each}}
+      </tbody>
+    </table>
+    {{/if}}
+  </div>
+
+  <!-- Financial Summary -->
+  <div class="section">
+    <div class="summary-section">
+      <div class="section-subtitle" style="margin-top: 0;">Financial Summary</div>
+
+      <table class="summary-table">
+        <tr>
+          <td class="label">Materials Total</td>
+          <td class="value">{{formatCurrency summary.materialsTotal}}</td>
+        </tr>
+        {{#if summary.tariffTotal}}
+        <tr>
+          <td class="label">Tariff Total</td>
+          <td class="value">{{formatCurrency summary.tariffTotal}}</td>
+        </tr>
+        {{/if}}
+        <tr>
+          <td class="label">Labor Total</td>
+          <td class="value">{{formatCurrency summary.laborTotal}}</td>
+        </tr>
+        <tr class="subtotal">
+          <td class="label">Subtotal</td>
+          <td class="value">{{formatCurrency summary.subtotal}}</td>
+        </tr>
+        {{#if summary.indirectCost}}
+        <tr>
+          <td class="label">Indirect Costs</td>
+          <td class="value">{{formatCurrency summary.indirectCost}}</td>
+        </tr>
+        {{/if}}
+        <tr class="total">
+          <td class="label">Purchase Price (Excl. Taxes)</td>
+          <td class="value">{{formatCurrency summary.grandTotal}}</td>
+        </tr>
+      </table>
+
+      <p class="text-small text-muted mt-4">
+        * Sales tax will be calculated and added to the final invoice based on the project location and applicable tax rates.
+      </p>
+    </div>
+
+    <!-- Signature Block -->
+    <div class="signature-section">
+      <div class="signature-block">
+        <h4>Client Acceptance</h4>
+        <div class="signature-line">
+          <span class="label">Date Accepted:</span>
+          <span class="line"></span>
+        </div>
+        <div class="signature-line">
+          <span class="label">Signature:</span>
+          <span class="line"></span>
+        </div>
+        <div class="signature-line">
+          <span class="label">Printed Name:</span>
+          <span class="line"></span>
+        </div>
+        <div class="signature-line">
+          <span class="label">Title:</span>
+          <span class="line"></span>
+        </div>
+        <div class="signature-line">
+          <span class="label">PO Number:</span>
+          <span class="line"></span>
+        </div>
+        <div class="signature-line">
+          <span class="label">Email:</span>
+          <span class="line"></span>
+        </div>
+      </div>
+
+      <div class="signature-block">
+        <h4>TSI Representative</h4>
+        <div class="signature-line">
+          <span class="label">Date Submitted:</span>
+          <span class="line"></span>
+        </div>
+        <div class="signature-line">
+          <span class="label">Signature:</span>
+          <span class="line"></span>
+        </div>
+        <div class="signature-line">
+          <span class="label">Submitted By:</span>
+          <span class="line">{{#if estimate}}{{estimate.salesRep}}{{/if}}</span>
+        </div>
+        <div class="signature-line">
+          <span class="label">Title:</span>
+          <span class="line">Account Manager</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Terms of Sale -->
+  <div class="terms-section">
+    <div class="page-header">
+      <span class="estimate-number">{{#if estimate}}{{estimate.tranId}}{{else}}{{config.estimateNumber}}{{/if}}</span>
+      <span>Terms of Sale</span>
+    </div>
+
+    <div class="section">
+      <div class="section-title">Terms of Sale</div>
+
+      <div class="terms-content">
+        <h4>Order Processing</h4>
+        <p>
+          Orders are processed upon receipt of a valid purchase order or signed proposal.
+          Lead times vary based on product availability and project complexity.
+          TSI will provide estimated delivery dates upon order confirmation.
+        </p>
+
+        <h4>Tariffs & Import Duties</h4>
+        <p>
+          Tariff amounts shown are estimates based on current rates and are subject to change.
+          Final tariff charges will be calculated at time of import and invoiced accordingly.
+          Customer is responsible for any additional duties, taxes, or fees imposed after the proposal date.
+        </p>
+
+        <h4>Payment Terms</h4>
+        <p>
+          Standard payment terms are Net 30 from invoice date unless otherwise specified.
+          For projects exceeding $50,000, a deposit of 50% may be required prior to ordering materials.
+          Progress billing may apply for extended installation projects.
+        </p>
+
+        <h4>Changes & Modifications</h4>
+        <p>
+          Any changes to the scope of work after acceptance must be documented in a written change order.
+          Additional costs resulting from scope changes will be quoted separately and require customer approval.
+        </p>
+
+        <h4>Statement of Warranty</h4>
+        <p>
+          TSI warrants all equipment to be free from defects in materials and workmanship for a period of one (1) year from the date of installation, unless manufacturer warranty terms provide for a longer period.
+          Labor warranty covers installation workmanship for a period of ninety (90) days from project completion.
+          This warranty does not cover damage caused by misuse, neglect, unauthorized modifications, or acts of nature.
+        </p>
+
+        <h4>Limitation of Liability</h4>
+        <p>
+          TSI's liability under this agreement shall not exceed the total contract value.
+          In no event shall TSI be liable for any indirect, incidental, special, or consequential damages.
+          TSI is not responsible for delays caused by circumstances beyond its reasonable control.
+        </p>
+
+        <h4>Insurance</h4>
+        <p>
+          TSI maintains comprehensive general liability insurance, workers' compensation insurance, and automobile liability insurance.
+          Certificates of insurance are available upon request.
+        </p>
+
+        <h4>Acceptance</h4>
+        <p>
+          This proposal is valid for thirty (30) days from the date of issue.
+          Acceptance of this proposal constitutes agreement to all terms and conditions stated herein.
+          Work will commence upon receipt of signed proposal and any required deposits.
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer (on all pages) -->
+  <div class="page-footer">
+    Generated {{formatDate generatedDate}} | {{#if estimate}}{{estimate.tranId}}{{else}}{{config.estimateNumber}}{{/if}} | Project Proposal v{{config.version}}
+  </div>
+</body>
+</html>
