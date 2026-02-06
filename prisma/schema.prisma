@@ -1,0 +1,439 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum ConfigStatus {
+  DRAFT
+  SUBMITTED
+  APPROVED
+  ERROR
+}
+
+enum SubmissionStatus {
+  PENDING
+  IN_PROGRESS
+  SUCCESS
+  FAILED
+  PARTIAL
+}
+
+// === Projects Configurator Enums ===
+
+enum CustomerType {
+  END_USER_EXISTING
+  END_USER_NEW
+  GC_EXISTING
+  GC_NEW
+}
+
+enum PostInstallPlan {
+  FOCUS
+  WARRANTY
+  TIME_AND_MATERIALS
+  NOT_APPLICABLE
+}
+
+enum TrainingType {
+  TECHNICIAN
+  PROFESSIONAL_SERVICES
+  SOLUTIONS_ARCHITECT
+  OTHER
+}
+
+enum ProServicesLocation {
+  REMOTE
+  ONSITE
+  BOTH
+}
+
+enum RemoteAccessMethod {
+  CLIENT_PROVIDED_LAPTOP
+  CLIENT_PROVIDED_VPN
+  SCREENSHARE_ANYDESK
+  SCREENSHARE_MS_TEAMS
+  SCREENSHARE_TEAMVIEWER
+  SCREENSHARE_WEBEX
+  SCREENSHARE_ZOOM
+  SECURELINK_CUSTOMER
+  SECURELINK_TSI
+}
+
+enum TermsType {
+  CUSTOM_TERMS
+  EXISTING_MSA
+  STANDARD
+}
+
+enum ProjectLineCategory {
+  TSI_PROVIDED_PARTS
+  SUBCONTRACTOR_PARTS
+  INSTALLATION_LABOR
+  SUBCONTRACTOR_LABOR
+  PROJECT_MANAGEMENT
+  MISC_LABOR
+  TRAVEL_COSTS
+}
+
+model Configuration {
+  id             String       @id @default(cuid())
+  estimateId     String? // NetSuite internal ID of the Estimate
+  estimateNumber String? // NetSuite tranId (display number)
+  customerId     String? // NetSuite customer internal ID
+  customerName   String?
+  version        Int          @default(1)
+  status         ConfigStatus @default(DRAFT)
+
+  // Top-level flags
+  accessControlCards Boolean @default(false)
+  allowCustomMargin  Boolean @default(false)
+  licensingSSA       Boolean @default(false)
+  saas               Boolean @default(false)
+
+  // ACS Card Details (when accessControlCards = true)
+  acsFormat       String?
+  acsFacilityCode String?
+  acsQuantity     Int?
+  acsStartNumber  Int?
+  acsEndNumber    Int?
+
+  // Licensing & SSA Details (when licensingSSA = true)
+  systemId String?
+
+  // SaaS Details (when saas = true)
+  saasTerm               Int?     // 1-5 (years)
+  saasStartDate          String?  // date string (YYYY-MM-DD)
+  saasEndDate            String?  // date string (YYYY-MM-DD)
+  saasEffectiveDateNotes String?  @db.Text
+  saasBillingSchedule    String?  // annual | monthly | quarterly | semi_annual | other
+
+  // Pricing
+  defaultMargin Decimal @default(0.30) @db.Decimal(5, 4)
+
+  // Proposal fields
+  contactFirstName String?
+  contactLastName  String?
+  contactEmail     String?
+  scopeOfWork      String? @db.Text
+  proposalSummary  String? @db.Text
+
+  // Shipping
+  shippingFee      Decimal @default(0) @db.Decimal(12, 2)
+  shippingOverride Boolean @default(false)
+
+  // Metadata
+  createdBy String
+  updatedBy String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Relations
+  lineItems   LineItem[]
+  submissions Submission[]
+
+  @@index([estimateId])
+  @@index([status])
+}
+
+model LineItem {
+  id              String        @id @default(cuid())
+  configurationId String
+  configuration   Configuration @relation(fields: [configurationId], references: [id], onDelete: Cascade)
+
+  lineNumber   Int
+  itemId       String // NetSuite internal ID
+  partNumber   String
+  manufacturer String?
+  description  String?
+  quantity     Int
+
+  // Pricing
+  unitCost      Decimal @db.Decimal(12, 2)
+  targetMargin  Decimal @default(0.30) @db.Decimal(5, 4)
+  productPrice  Decimal @db.Decimal(12, 2)
+  priceOverride Boolean @default(false)
+
+  // Tariff
+  tariffPercent Decimal @default(0) @db.Decimal(5, 2)
+  tariffAmount  Decimal @default(0) @db.Decimal(12, 2)
+
+  // Computed (stored for audit)
+  margin     Decimal @default(0) @db.Decimal(5, 4)
+  extCost    Decimal @db.Decimal(12, 2)
+  totalPrice Decimal @db.Decimal(12, 2)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([configurationId])
+}
+
+model Submission {
+  id              String        @id @default(cuid())
+  configurationId String
+  configuration   Configuration @relation(fields: [configurationId], references: [id])
+
+  // Idempotency
+  idempotencyKey String @unique
+  version        Int
+
+  // Payload + response
+  requestPayload  Json
+  responsePayload Json?
+  netsuiteEstId   String?
+
+  status       SubmissionStatus @default(PENDING)
+  errorMessage String?          @db.Text
+  attempts     Int              @default(0)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([configurationId])
+  @@index([idempotencyKey])
+}
+
+// === Projects Configurator Models ===
+
+model ProjectConfiguration {
+  id             String       @id @default(cuid())
+  estimateId     String?
+  estimateNumber String?
+  customerId     String?
+  customerName   String?
+  version        Int          @default(1)
+  status         ConfigStatus @default(DRAFT)
+
+  // === Customer Information ===
+  customerType             CustomerType?
+  acknowledgeNewClientForm Boolean       @default(false)
+  isOUS                    Boolean       @default(false)
+  hasLocalCostsVAT         Boolean       @default(false)
+
+  // === Resource Information ===
+  subRequired                Boolean             @default(false)
+  subQuote                   Boolean             @default(false)
+  specialWorkingHours        Boolean             @default(false)
+  specialWorkingHoursDetails String?             @db.Text
+  unionLabor                 Boolean             @default(false)
+  prevailingWage             Boolean             @default(false)
+  additionalScreening        Boolean             @default(false)
+  additionalScreeningDetails String?             @db.Text
+  proServicesOrSA            Boolean             @default(false)
+  proServicesLocation        ProServicesLocation?
+  remoteAccessMethod         RemoteAccessMethod?
+  trainingType               TrainingType?
+
+  // === Installation Details (9 Yes/No with details) ===
+  liftPlatformLadder        Boolean @default(false)
+  liftPlatformLadderDetails String? @db.Text
+  dustContainment           Boolean @default(false)
+  dustContainmentDetails    String? @db.Text
+  conduit                   Boolean @default(false)
+  conduitDetails            String? @db.Text
+  fireCaulk                 Boolean @default(false)
+  fireCaulkDetails          String? @db.Text
+  fireAlarmRelay            Boolean @default(false)
+  fireAlarmRelayDetails     String? @db.Text
+  permits                   Boolean @default(false)
+  permitsDetails            String? @db.Text
+  siteOwlDrawing            Boolean @default(false)
+  siteOwlDrawingDetails     String? @db.Text
+  certOfInsurance           Boolean @default(false)
+  certOfInsuranceDetails    String? @db.Text
+  badgingRequired           Boolean @default(false)
+  badgingRequiredDetails    String? @db.Text
+  specialInstructions       String? @db.Text
+
+  // === Post Installation ===
+  postInstallPlan       PostInstallPlan?
+  focusAmount           Decimal?         @db.Decimal(12, 2)
+  includeFocusInProject Boolean          @default(false)
+
+  // === Materials Toggles (reuse Box Sales patterns) ===
+  accessControlCards Boolean @default(false)
+  allowCustomMargin  Boolean @default(false)
+  licensingSSA       Boolean @default(false)
+  saas               Boolean @default(false)
+
+  // ACS Card Details
+  acsFormat       String?
+  acsFacilityCode String?
+  acsQuantity     Int?
+  acsStartNumber  Int?
+  acsEndNumber    Int?
+
+  // Licensing & SSA
+  systemId String?
+
+  // SaaS Details
+  saasTerm               Int?
+  saasStartDate          String?
+  saasEndDate            String?
+  saasEffectiveDateNotes String? @db.Text
+  saasBillingSchedule    String?
+
+  // Indirect Cost
+  indirectCost         Decimal @default(0) @db.Decimal(12, 2)
+  indirectCostOverride Boolean @default(false)
+
+  // === Scope of Work (7 text areas) ===
+  installationScope       String? @db.Text
+  customerProvidedScope   String? @db.Text
+  proServicesScope        String? @db.Text
+  solutionsArchitectScope String? @db.Text
+  constraintsAssumptions  String? @db.Text
+  exclusions              String? @db.Text
+  focusScope              String? @db.Text
+
+  // === Proposal Details ===
+  contactFirstName String?
+  contactLastName  String?
+  contactEmail     String?
+  introduction     String?    @db.Text
+  termsType        TermsType?
+
+  // Pricing
+  defaultMargin Decimal @default(0.30) @db.Decimal(5, 4)
+
+  // Metadata
+  createdBy String
+  updatedBy String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Relations
+  lineItems ProjectLineItem[]
+  locations ProjectLocation[]
+
+  @@index([estimateId])
+  @@index([status])
+}
+
+model ProjectLineItem {
+  id              String               @id @default(cuid())
+  configurationId String
+  configuration   ProjectConfiguration @relation(fields: [configurationId], references: [id], onDelete: Cascade)
+
+  category     ProjectLineCategory
+  lineNumber   Int
+  itemId       String
+  partNumber   String
+  manufacturer String?
+  description  String?
+  quantity     Int
+
+  // Location (TSI_PROVIDED_PARTS only)
+  locationId String?
+  location   ProjectLocation? @relation(fields: [locationId], references: [id], onDelete: SetNull)
+
+  // Pricing
+  unitCost      Decimal @db.Decimal(12, 2)
+  targetMargin  Decimal @default(0.30) @db.Decimal(5, 4)
+  productPrice  Decimal @db.Decimal(12, 2)
+  priceOverride Boolean @default(false)
+
+  // Tariff (TSI_PROVIDED_PARTS only)
+  tariffPercent Decimal @default(0) @db.Decimal(5, 2)
+  tariffAmount  Decimal @default(0) @db.Decimal(12, 2)
+
+  // Computed
+  margin     Decimal @default(0) @db.Decimal(5, 4)
+  extCost    Decimal @db.Decimal(12, 2)
+  totalPrice Decimal @db.Decimal(12, 2)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([configurationId])
+  @@index([category])
+}
+
+model ProjectLocation {
+  id              String               @id @default(cuid())
+  configurationId String
+  configuration   ProjectConfiguration @relation(fields: [configurationId], references: [id], onDelete: Cascade)
+  name            String
+  sortOrder       Int                  @default(0)
+  lineItems       ProjectLineItem[]
+  createdAt       DateTime             @default(now())
+  updatedAt       DateTime             @updatedAt
+
+  @@index([configurationId])
+}
+
+// === Admin Configuration Models ===
+
+// Table filter configuration for each item table (TSI Parts, Installation Labor, etc.)
+model TableFilterConfig {
+  id          String  @id @default(cuid())
+  tableKey    String  @unique // "TSI_PROVIDED_PARTS", "INSTALLATION_LABOR", etc.
+  displayName String
+  description String?
+  isEnabled   Boolean @default(true)
+
+  // Filter rules stored as JSON for flexibility
+  // { itemTypes: [], nameContains: [], nameExcludes: [], manufacturers: [], costMin, costMax }
+  filters Json @default("{}")
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  createdBy String   @default("system")
+  updatedBy String   @default("system")
+
+  @@index([tableKey])
+}
+
+// Form field configuration for dropdowns and other configurable fields
+model FieldConfig {
+  id          String  @id @default(cuid())
+  fieldKey    String  @unique // "customerType", "remoteAccessMethod", etc.
+  fieldType   String // "dropdown", "yesno", "text", "textarea"
+  displayName String
+  description String?
+  section     String // "customerInfo", "resourceInfo", "installation", "postInstall", "proposal"
+  sortOrder   Int     @default(0)
+  isEnabled   Boolean @default(true)
+  isRequired  Boolean @default(false)
+
+  // NetSuite mapping
+  netsuiteField String?
+
+  // Conditional display rules (JSON)
+  // { field: "customerType", equals: ["END_USER_NEW", "GC_NEW"] }
+  showWhen Json?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  createdBy String   @default("system")
+  updatedBy String   @default("system")
+
+  options FieldOption[]
+
+  @@index([section])
+}
+
+// Dropdown options (separate model for proper ordering/management)
+model FieldOption {
+  id      String      @id @default(cuid())
+  fieldId String
+  field   FieldConfig @relation(fields: [fieldId], references: [id], onDelete: Cascade)
+
+  value     String // Database value: "END_USER_EXISTING"
+  label     String // Display label: "End User (Existing)"
+  sortOrder Int     @default(0)
+  isEnabled Boolean @default(true)
+
+  // NetSuite mapping for this specific option value
+  netsuiteValue String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([fieldId, value])
+  @@index([fieldId])
+}
