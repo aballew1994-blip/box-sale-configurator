@@ -1,6 +1,7 @@
 import { prisma } from "@/lib/db";
 import { getEstimate } from "@/lib/netsuite/estimates";
 import { computeLineItem } from "@/lib/utils/calculations";
+import { lookupTariffByManufacturer } from "@/lib/services/manufacturerTariff";
 import type { Prisma, ProjectLineCategory } from "@prisma/client";
 import type {
   AddProjectLineItemInput,
@@ -138,7 +139,14 @@ export async function addProjectLineItem(
 
   // Determine tariff - only TSI_PROVIDED_PARTS uses tariff
   const useTariff = categoryUsesTariff(input.category);
-  const tariffPercent = useTariff ? (input.tariffPercent ?? 0) : 0;
+  let tariffPercent = 0;
+  if (useTariff) {
+    tariffPercent = input.tariffPercent ?? 0;
+    // Auto-lookup tariff if not provided and manufacturer is specified
+    if (tariffPercent === 0 && input.manufacturer) {
+      tariffPercent = await lookupTariffByManufacturer(input.manufacturer);
+    }
+  }
 
   const computed = computeLineItem({
     unitCost: input.unitCost,

@@ -101,7 +101,14 @@ export async function generateProposal(configId: string): Promise<Buffer> {
   const puppeteer = await import("puppeteer");
   const browser = await puppeteer.default.launch({
     headless: true,
-    args: ["--no-sandbox", "--disable-setuid-sandbox"],
+    channel: "chrome", // Use installed Chrome instead of bundled Chromium
+    args: [
+      "--no-sandbox",
+      "--disable-setuid-sandbox",
+      "--disable-dev-shm-usage",
+      "--disable-gpu",
+    ],
+    timeout: 60000,
   });
 
   try {

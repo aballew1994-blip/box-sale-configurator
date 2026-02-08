@@ -11,81 +11,66 @@
       line-height: 1.5;
     }
 
-    /* Cover Page */
+    /* ==================== PAGE SETUP ==================== */
+    @page {
+      size: Letter;
+      margin: 0;
+    }
+
+    /* Header/footer are now handled by Puppeteer's headerTemplate/footerTemplate */
+    /* These styles are kept for reference but elements are removed from body */
+
+    /* ==================== COVER PAGE ==================== */
     .cover-page {
-      min-height: 100vh;
+      position: relative;
       display: flex;
       flex-direction: column;
       page-break-after: always;
+      min-height: 100%;
     }
 
-    .cover-header {
-      background: #1a365d;
-      padding: 20px 40px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    .cover-header .logo {
-      font-size: 24px;
-      font-weight: 700;
-      color: white;
-      letter-spacing: 1px;
-    }
-
-    .cover-header .badges {
-      display: flex;
-      gap: 12px;
-    }
-
-    .cover-header .badge {
-      background: rgba(255,255,255,0.15);
-      color: white;
-      padding: 4px 10px;
-      border-radius: 4px;
-      font-size: 9px;
-      font-weight: 600;
-    }
-
-    .cover-banner {
+    .red-banner {
       background: #dc2626;
       color: white;
-      padding: 12px 40px;
+      padding: 8px 24px;
       display: flex;
       justify-content: space-between;
       align-items: center;
     }
 
-    .cover-banner .estimate-number {
-      font-size: 18px;
+    .red-banner .estimate-number {
+      font-size: 14px;
       font-weight: 700;
       letter-spacing: 1px;
+    }
+
+    .red-banner .label {
+      font-size: 12px;
     }
 
     .cover-content {
       flex: 1;
-      padding: 40px;
+      padding: 32px;
     }
 
     .customer-name {
-      font-size: 36px;
+      font-size: 28px;
       font-weight: 700;
       color: #1a365d;
-      margin-bottom: 20px;
+      margin-bottom: 8px;
     }
 
     .customer-address {
-      font-size: 14px;
+      font-size: 12px;
       color: #666;
       line-height: 1.6;
-      margin-bottom: 40px;
+      margin-bottom: 24px;
     }
 
     .proposal-dates {
       display: flex;
       gap: 40px;
-      margin-bottom: 40px;
+      margin-bottom: 24px;
     }
 
     .proposal-dates .date-block {
@@ -106,27 +91,22 @@
       font-size: 14px;
     }
 
-    .cover-hero {
-      background: linear-gradient(135deg, #f0f4f8 0%, #e2e8f0 100%);
-      height: 200px;
+    .title-image-container {
       border-radius: 8px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin-bottom: 40px;
+      overflow: hidden;
+      margin-bottom: 24px;
     }
 
-    .cover-hero-text {
-      font-size: 18px;
-      color: #94a3b8;
-      font-weight: 500;
+    .title-image {
+      width: 100%;
+      height: auto;
+      display: block;
     }
 
     .prepared-by {
       background: #f8fafc;
-      padding: 20px 24px;
+      padding: 16px 20px;
       border-radius: 8px;
-      margin-bottom: 20px;
     }
 
     .prepared-by-label {
@@ -134,7 +114,7 @@
       text-transform: uppercase;
       letter-spacing: 0.5px;
       color: #666;
-      margin-bottom: 8px;
+      margin-bottom: 6px;
     }
 
     .prepared-by-name {
@@ -148,39 +128,44 @@
       color: #666;
     }
 
-    .cover-footer {
-      border-top: 1px solid #e2e8f0;
-      padding: 20px 40px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      font-size: 11px;
-      color: #666;
+    /* ==================== CONTENT PAGES ==================== */
+    .content-page {
+      position: relative;
+      padding: 0 32px 24px 32px;
+      page-break-after: always;
     }
 
-    /* Page Header */
-    .page-header {
+    .content-page:last-child {
+      page-break-after: auto;
+    }
+
+    .page-banner {
       background: #dc2626;
       color: white;
-      padding: 10px 32px;
+      padding: 8px 24px;
+      margin: 0 -32px 20px -32px; /* Extend to page edges */
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: 24px;
     }
 
-    .page-header .estimate-number {
+    .page-body {
+      /* Content flows naturally after banner */
+    }
+
+    .page-banner .estimate-number {
+      font-size: 14px;
       font-weight: 700;
-      font-size: 13px;
+      letter-spacing: 1px;
     }
 
-    /* Section Styles */
-    .section {
-      padding: 0 32px 24px 32px;
+    .page-banner .label {
+      font-size: 12px;
     }
 
+    /* ==================== SECTION STYLES ==================== */
     .section-title {
-      font-size: 18px;
+      font-size: 16px;
       font-weight: 700;
       color: #1a365d;
       border-bottom: 3px solid #1a365d;
@@ -189,11 +174,11 @@
     }
 
     .section-subtitle {
-      font-size: 14px;
+      font-size: 13px;
       font-weight: 600;
       color: #1a365d;
-      margin-bottom: 12px;
-      margin-top: 16px;
+      margin-bottom: 8px;
+      margin-top: 20px;
     }
 
     .section-content {
@@ -201,21 +186,22 @@
       line-height: 1.7;
       color: #444;
       white-space: pre-wrap;
+      margin-bottom: 16px;
     }
 
     .section-intro {
-      font-size: 12px;
+      font-size: 11px;
       color: #666;
-      margin-bottom: 16px;
+      margin-bottom: 12px;
       font-style: italic;
     }
 
-    /* Info Grid */
+    /* ==================== INFO GRID ==================== */
     .info-grid {
       display: grid;
       grid-template-columns: 1fr 1fr 1fr;
       gap: 24px;
-      margin-bottom: 20px;
+      margin-bottom: 24px;
     }
 
     .info-block {
@@ -232,130 +218,213 @@
     }
 
     .info-block .value {
-      font-size: 12px;
+      font-size: 11px;
       line-height: 1.5;
+      color: #444;
     }
 
-    /* Tables */
+    /* ==================== TABLES ==================== */
     table {
       width: 100%;
       border-collapse: collapse;
       font-size: 10px;
-      margin-bottom: 16px;
+    }
+
+    .location-header {
+      background: #1a365d;
+      color: white;
+      padding: 8px 12px;
+      font-size: 11px;
+      font-weight: 600;
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .location-header.subcontractor {
+      background: #4a5568;
+    }
+
+    .location-header.unassigned {
+      background: #9ca3af;
     }
 
     thead {
-      background: #1a365d;
-      color: white;
+      background: #f3f4f6;
     }
 
     thead th {
-      padding: 8px 10px;
+      padding: 6px 8px;
       text-align: left;
       font-weight: 600;
       font-size: 9px;
       text-transform: uppercase;
       letter-spacing: 0.3px;
+      color: #6b7280;
     }
 
     thead th.right { text-align: right; }
     thead th.center { text-align: center; }
 
     tbody tr {
-      border-bottom: 1px solid #e2e8f0;
+      border-bottom: 1px solid #e5e7eb;
     }
 
     tbody tr:nth-child(even) {
-      background: #f8fafc;
+      background: #f9fafb;
     }
 
     tbody td {
-      padding: 8px 10px;
+      padding: 6px 8px;
       vertical-align: top;
     }
 
     tbody td.right { text-align: right; }
     tbody td.center { text-align: center; }
-    tbody td.desc { max-width: 250px; }
+    tbody td.desc { max-width: 200px; }
+    tbody td.bold { font-weight: 600; }
 
-    /* Location Group Header */
-    .location-header {
-      background: #e2e8f0;
-      padding: 10px 16px;
-      font-size: 13px;
+    /* Materials Total Row */
+    .materials-total {
+      background: #e5e7eb;
+      padding: 8px 12px;
+      display: flex;
+      justify-content: space-between;
       font-weight: 600;
+      font-size: 12px;
       color: #1a365d;
-      margin-top: 20px;
-      margin-bottom: 0;
+      margin-top: 16px;
+    }
+
+    /* ==================== LABOR SECTION ==================== */
+    .labor-section {
+      margin-top: 24px;
+    }
+
+    .labor-header {
+      background: #e5e7eb;
+      padding: 8px 12px;
+      font-weight: 600;
+      font-size: 12px;
+      color: #1a365d;
       border-radius: 4px 4px 0 0;
     }
 
-    .location-header:first-child {
-      margin-top: 0;
+    .labor-content {
+      border: 1px solid #e5e7eb;
+      border-top: none;
+      border-radius: 0 0 4px 4px;
+      padding: 12px;
     }
 
-    /* Summary Table */
-    .summary-section {
-      margin-top: 32px;
-      padding: 24px;
-      background: #f8fafc;
-      border-radius: 8px;
+    .labor-row {
+      display: flex;
+      justify-content: space-between;
+      padding: 4px 0;
+      font-size: 11px;
     }
 
-    .summary-table {
-      width: 400px;
-      margin-left: auto;
-      font-size: 12px;
+    .labor-row .label {
+      color: #6b7280;
     }
 
-    .summary-table td {
-      padding: 6px 12px;
-    }
-
-    .summary-table .label {
-      font-weight: 400;
-      color: #666;
-    }
-
-    .summary-table .value {
-      text-align: right;
+    .labor-row .value {
       font-weight: 500;
     }
 
-    .summary-table tr.subtotal {
-      border-top: 1px solid #e2e8f0;
+    .labor-row.total {
+      border-top: 1px solid #e5e7eb;
+      margin-top: 8px;
+      padding-top: 8px;
     }
 
-    .summary-table tr.total {
+    .labor-row.total .label {
+      font-weight: 600;
+      color: #374151;
+    }
+
+    .labor-row.total .value {
+      font-weight: 600;
+    }
+
+    /* ==================== SUMMARY SECTION ==================== */
+    .summary-section {
+      margin-top: 24px;
+      background: #f8fafc;
+      border-radius: 8px;
+      padding: 20px;
+    }
+
+    .summary-title {
+      font-weight: 600;
+      font-size: 13px;
+      color: #1a365d;
+      margin-bottom: 12px;
+    }
+
+    .summary-row {
+      display: flex;
+      justify-content: space-between;
+      padding: 4px 0;
+      font-size: 11px;
+    }
+
+    .summary-row .label {
+      color: #6b7280;
+    }
+
+    .summary-row .value {
+      font-weight: 500;
+    }
+
+    .summary-row.subtotal {
+      border-top: 1px solid #e5e7eb;
+      margin-top: 8px;
+      padding-top: 8px;
+    }
+
+    .summary-row.total {
       border-top: 2px solid #1a365d;
+      margin-top: 8px;
+      padding-top: 12px;
     }
 
-    .summary-table tr.total td {
+    .summary-row.total .label {
       font-weight: 700;
-      font-size: 16px;
-      padding-top: 12px;
       color: #1a365d;
     }
 
-    /* Signature Block */
+    .summary-row.total .value {
+      font-weight: 700;
+      font-size: 14px;
+      color: #1a365d;
+    }
+
+    .tax-note {
+      font-size: 9px;
+      color: #9ca3af;
+      margin-top: 12px;
+      font-style: italic;
+    }
+
+    /* ==================== SIGNATURE BLOCK ==================== */
     .signature-section {
-      margin-top: 40px;
+      margin-top: 32px;
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 40px;
+      gap: 24px;
     }
 
     .signature-block {
-      border: 1px solid #e2e8f0;
-      padding: 20px;
+      border: 1px solid #e5e7eb;
+      padding: 16px;
       border-radius: 8px;
     }
 
     .signature-block h4 {
-      font-size: 12px;
+      font-size: 10px;
       font-weight: 600;
       color: #1a365d;
-      margin-bottom: 16px;
+      margin-bottom: 12px;
       text-transform: uppercase;
       letter-spacing: 0.5px;
     }
@@ -363,27 +432,30 @@
     .signature-line {
       display: flex;
       align-items: flex-end;
-      margin-bottom: 16px;
+      margin-bottom: 12px;
+      font-size: 9px;
     }
 
     .signature-line .label {
-      font-size: 10px;
-      color: #666;
-      width: 100px;
+      color: #6b7280;
+      width: 90px;
+      flex-shrink: 0;
     }
 
     .signature-line .line {
       flex: 1;
       border-bottom: 1px solid #333;
       margin-left: 8px;
-      min-height: 20px;
+      min-height: 16px;
     }
 
-    /* Terms Section */
-    .terms-section {
-      page-break-before: always;
+    .signature-line .prefilled {
+      flex: 1;
+      margin-left: 8px;
+      color: #333;
     }
 
+    /* ==================== TERMS SECTION ==================== */
     .terms-content {
       column-count: 2;
       column-gap: 32px;
@@ -392,11 +464,11 @@
     }
 
     .terms-content h4 {
-      font-size: 11px;
+      font-size: 10px;
       font-weight: 600;
       color: #1a365d;
       margin-top: 12px;
-      margin-bottom: 6px;
+      margin-bottom: 4px;
     }
 
     .terms-content h4:first-child {
@@ -405,48 +477,71 @@
 
     .terms-content p {
       margin-bottom: 8px;
+      color: #4b5563;
     }
 
-    /* Footer */
-    .page-footer {
-      position: fixed;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      padding: 8px 32px;
-      font-size: 9px;
-      color: #999;
-      text-align: center;
-      border-top: 1px solid #e2e8f0;
-      background: white;
+    /* ==================== PAGE BREAK CONTROL ==================== */
+    /* Allow sections to break across pages to prevent cut-off */
+    .summary-section {
+      page-break-inside: auto;
     }
 
-    .page-break { page-break-before: always; }
+    .signature-section {
+      page-break-inside: avoid;
+      page-break-before: auto;
+    }
 
-    /* Utility */
-    .text-muted { color: #666; }
-    .text-small { font-size: 9px; }
+    .labor-section {
+      page-break-inside: auto;
+    }
+
+    .location-header {
+      page-break-after: avoid;
+    }
+
+    table {
+      page-break-inside: auto;
+    }
+
+    tr {
+      page-break-inside: avoid;
+      page-break-after: auto;
+    }
+
+    /* Ensure summary rows don't break in the middle */
+    .summary-row {
+      page-break-inside: avoid;
+    }
+
+    .labor-row {
+      page-break-inside: avoid;
+    }
+
+    /* ==================== UTILITIES ==================== */
     .mt-4 { margin-top: 16px; }
     .mb-4 { margin-bottom: 16px; }
+    .mb-6 { margin-bottom: 24px; }
+
+    .no-items {
+      color: #9ca3af;
+      font-style: italic;
+      padding: 12px;
+      text-align: center;
+    }
   </style>
 </head>
 <body>
-  <!-- Cover Page -->
+  <!-- Header/footer are now rendered by Puppeteer's displayHeaderFooter option -->
+
+  <!-- ==================== COVER PAGE ==================== -->
   <div class="cover-page">
-    <div class="cover-header">
-      <div class="logo">TSI</div>
-      <div class="badges">
-        <span class="badge">AVIGILON ALTA</span>
-        <span class="badge">GENETEC</span>
-        <span class="badge">AXIS</span>
-      </div>
-    </div>
-
-    <div class="cover-banner">
+    <!-- Red Banner -->
+    <div class="red-banner">
       <span class="estimate-number">{{#if estimate}}{{estimate.tranId}}{{else}}{{config.estimateNumber}}{{/if}}</span>
-      <span>Project Proposal</span>
+      <span class="label">Project Proposal</span>
     </div>
 
+    <!-- Cover Content -->
     <div class="cover-content">
       <div class="customer-name">
         {{#if customer}}{{customer.name}}{{else}}{{config.customerName}}{{/if}}
@@ -473,9 +568,12 @@
         </div>
       </div>
 
-      <div class="cover-hero">
-        <span class="cover-hero-text">Project Site Image</span>
+      <!-- Title Page Image -->
+      {{#if images.titlePage}}
+      <div class="title-image-container">
+        <img src="{{images.titlePage}}" alt="Project Site" class="title-image">
       </div>
+      {{/if}}
 
       <div class="prepared-by">
         <div class="prepared-by-label">Prepared By</div>
@@ -484,304 +582,313 @@
         <div class="prepared-by-title">Account Manager</div>
         {{else}}
         <div class="prepared-by-name">TSI Account Team</div>
+        <div class="prepared-by-title">Account Manager</div>
         {{/if}}
       </div>
     </div>
-
-    <div class="cover-footer">
-      <div>www.tsibusiness.com | (800) 555-1234</div>
-      <div>Technology Solutions Integrator</div>
-    </div>
   </div>
 
-  <!-- Statement of Work -->
-  <div class="page-header">
-    <span class="estimate-number">{{#if estimate}}{{estimate.tranId}}{{else}}{{config.estimateNumber}}{{/if}}</span>
-    <span>Project Proposal</span>
-  </div>
-
-  <div class="section">
-    <div class="section-title">Statement of Work</div>
-
-    {{#if config.introduction}}
-    <div class="section-intro">{{config.introduction}}</div>
-    {{/if}}
-
-    {{#if config.installationScope}}
-    <div class="section-content">{{config.installationScope}}</div>
-    {{else}}
-    <div class="section-content text-muted">No installation scope defined.</div>
-    {{/if}}
-  </div>
-
-  <!-- Customer Provided Equipment & Services -->
-  {{#if (hasContent config.customerProvidedScope)}}
-  <div class="section">
-    <div class="section-title">Customer Provided Equipment & Services</div>
-    <div class="section-content">{{config.customerProvidedScope}}</div>
-  </div>
-  {{/if}}
-
-  <!-- Professional Services Scope (conditional) -->
-  {{#if showProServicesScope}}
-  <div class="section">
-    <div class="section-title">Professional Services Scope</div>
-    <div class="section-content">{{config.proServicesScope}}</div>
-  </div>
-  {{/if}}
-
-  <!-- Solutions Architect Scope (conditional) -->
-  {{#if showSolutionsArchitectScope}}
-  <div class="section">
-    <div class="section-title">Solutions Architect Scope</div>
-    <div class="section-content">{{config.solutionsArchitectScope}}</div>
-  </div>
-  {{/if}}
-
-  <!-- Constraints & Assumptions -->
-  {{#if (hasContent config.constraintsAssumptions)}}
-  <div class="section">
-    <div class="section-title">Constraints & Assumptions</div>
-    <div class="section-content">{{config.constraintsAssumptions}}</div>
-  </div>
-  {{/if}}
-
-  <!-- Exclusions -->
-  {{#if (hasContent config.exclusions)}}
-  <div class="section">
-    <div class="section-title">Exclusions</div>
-    <div class="section-content">{{config.exclusions}}</div>
-  </div>
-  {{/if}}
-
-  <!-- FOCUS Scope (conditional) -->
-  {{#if showFocusScope}}
-  <div class="section">
-    <div class="section-title">FOCUS Post-Installation Support</div>
-    <div class="section-content">{{config.focusScope}}</div>
-  </div>
-  {{/if}}
-
-  <!-- Proposal Details - Materials & Labor -->
-  <div class="page-break"></div>
-
-  <div class="page-header">
-    <span class="estimate-number">{{#if estimate}}{{estimate.tranId}}{{else}}{{config.estimateNumber}}{{/if}}</span>
-    <span>Proposal Details</span>
-  </div>
-
-  <div class="section">
-    <div class="section-title">Proposal Details</div>
-
-    <!-- Contact Info -->
-    <div class="info-grid">
-      <div class="info-block">
-        <div class="label">Site Address</div>
-        <div class="value">
-          {{#if customer}}
-          {{#if customer.shippingAddress}}
-          {{customer.shippingAddress.addr1}}<br>
-          {{#if customer.shippingAddress.addr2}}{{customer.shippingAddress.addr2}}<br>{{/if}}
-          {{customer.shippingAddress.city}}, {{customer.shippingAddress.state}} {{customer.shippingAddress.zip}}
-          {{else}}
-          See billing address
-          {{/if}}
-          {{else}}
-          Not specified
-          {{/if}}
-        </div>
-      </div>
-      <div class="info-block">
-        <div class="label">Billing Address</div>
-        <div class="value">
-          {{#if customer}}
-          {{#if customer.billingAddress}}
-          {{customer.billingAddress.addr1}}<br>
-          {{#if customer.billingAddress.addr2}}{{customer.billingAddress.addr2}}<br>{{/if}}
-          {{customer.billingAddress.city}}, {{customer.billingAddress.state}} {{customer.billingAddress.zip}}
-          {{/if}}
-          {{else}}
-          Not specified
-          {{/if}}
-        </div>
-      </div>
-      <div class="info-block">
-        <div class="label">Contact</div>
-        <div class="value">
-          {{#if config.contactFirstName}}
-          {{config.contactFirstName}} {{config.contactLastName}}<br>
-          {{/if}}
-          {{#if config.contactEmail}}
-          {{config.contactEmail}}
-          {{/if}}
-        </div>
-      </div>
-    </div>
-
-    <!-- Materials by Location -->
-    {{#each materialsByLocation}}
-    <div class="location-header">{{this.locationName}}</div>
-    <table>
-      <thead>
-        <tr>
-          <th style="width: 50px;">QTY</th>
-          <th style="width: 120px;">ITEM</th>
-          <th>DESCRIPTION</th>
-          <th class="right" style="width: 90px;">UNIT PRICE</th>
-          <th class="right" style="width: 80px;">TARIFF</th>
-          <th class="right" style="width: 100px;">EXT. PRICE</th>
-        </tr>
-      </thead>
-      <tbody>
-        {{#each this.items}}
-        <tr>
-          <td class="center">{{this.quantity}}</td>
-          <td>{{this.partNumber}}</td>
-          <td class="desc">{{this.description}}</td>
-          <td class="right">{{formatCurrency this.unitPrice}}</td>
-          <td class="right">{{formatCurrency this.tariffAmount}}</td>
-          <td class="right">{{formatCurrency this.extPrice}}</td>
-        </tr>
-        {{/each}}
-      </tbody>
-    </table>
-    {{/each}}
-
-    {{#unless materialsByLocation.length}}
-    <p class="text-muted mt-4">No materials have been added to this project.</p>
-    {{/unless}}
-
-    <!-- Labor Table -->
-    {{#if laborItems.length}}
-    <div class="location-header" style="margin-top: 32px;">Labor</div>
-    <table>
-      <thead>
-        <tr>
-          <th style="width: 50px;">QTY</th>
-          <th style="width: 120px;">ITEM</th>
-          <th>DESCRIPTION</th>
-          <th class="right" style="width: 90px;">UNIT PRICE</th>
-          <th class="right" style="width: 80px;">-</th>
-          <th class="right" style="width: 100px;">EXT. PRICE</th>
-        </tr>
-      </thead>
-      <tbody>
-        {{#each laborItems}}
-        <tr>
-          <td class="center">{{this.quantity}}</td>
-          <td>{{this.partNumber}}</td>
-          <td class="desc">{{this.description}}</td>
-          <td class="right">{{formatCurrency this.unitPrice}}</td>
-          <td class="right">-</td>
-          <td class="right">{{formatCurrency this.extPrice}}</td>
-        </tr>
-        {{/each}}
-      </tbody>
-    </table>
-    {{/if}}
-  </div>
-
-  <!-- Financial Summary -->
-  <div class="section">
-    <div class="summary-section">
-      <div class="section-subtitle" style="margin-top: 0;">Financial Summary</div>
-
-      <table class="summary-table">
-        <tr>
-          <td class="label">Materials Total</td>
-          <td class="value">{{formatCurrency summary.materialsTotal}}</td>
-        </tr>
-        {{#if summary.tariffTotal}}
-        <tr>
-          <td class="label">Tariff Total</td>
-          <td class="value">{{formatCurrency summary.tariffTotal}}</td>
-        </tr>
-        {{/if}}
-        <tr>
-          <td class="label">Labor Total</td>
-          <td class="value">{{formatCurrency summary.laborTotal}}</td>
-        </tr>
-        <tr class="subtotal">
-          <td class="label">Subtotal</td>
-          <td class="value">{{formatCurrency summary.subtotal}}</td>
-        </tr>
-        {{#if summary.indirectCost}}
-        <tr>
-          <td class="label">Indirect Costs</td>
-          <td class="value">{{formatCurrency summary.indirectCost}}</td>
-        </tr>
-        {{/if}}
-        <tr class="total">
-          <td class="label">Purchase Price (Excl. Taxes)</td>
-          <td class="value">{{formatCurrency summary.grandTotal}}</td>
-        </tr>
-      </table>
-
-      <p class="text-small text-muted mt-4">
-        * Sales tax will be calculated and added to the final invoice based on the project location and applicable tax rates.
-      </p>
-    </div>
-
-    <!-- Signature Block -->
-    <div class="signature-section">
-      <div class="signature-block">
-        <h4>Client Acceptance</h4>
-        <div class="signature-line">
-          <span class="label">Date Accepted:</span>
-          <span class="line"></span>
-        </div>
-        <div class="signature-line">
-          <span class="label">Signature:</span>
-          <span class="line"></span>
-        </div>
-        <div class="signature-line">
-          <span class="label">Printed Name:</span>
-          <span class="line"></span>
-        </div>
-        <div class="signature-line">
-          <span class="label">Title:</span>
-          <span class="line"></span>
-        </div>
-        <div class="signature-line">
-          <span class="label">PO Number:</span>
-          <span class="line"></span>
-        </div>
-        <div class="signature-line">
-          <span class="label">Email:</span>
-          <span class="line"></span>
-        </div>
-      </div>
-
-      <div class="signature-block">
-        <h4>TSI Representative</h4>
-        <div class="signature-line">
-          <span class="label">Date Submitted:</span>
-          <span class="line"></span>
-        </div>
-        <div class="signature-line">
-          <span class="label">Signature:</span>
-          <span class="line"></span>
-        </div>
-        <div class="signature-line">
-          <span class="label">Submitted By:</span>
-          <span class="line">{{#if estimate}}{{estimate.salesRep}}{{/if}}</span>
-        </div>
-        <div class="signature-line">
-          <span class="label">Title:</span>
-          <span class="line">Account Manager</span>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Terms of Sale -->
-  <div class="terms-section">
-    <div class="page-header">
+  <!-- ==================== STATEMENT OF WORK PAGE ==================== -->
+  <div class="content-page">
+    <div class="page-banner">
       <span class="estimate-number">{{#if estimate}}{{estimate.tranId}}{{else}}{{config.estimateNumber}}{{/if}}</span>
-      <span>Terms of Sale</span>
+      <span class="label">Statement of Work</span>
     </div>
 
-    <div class="section">
+    <div class="page-body">
+      <div class="section-title">Statement of Work</div>
+
+      <!-- Introduction -->
+      {{#if (hasContent config.introduction)}}
+      <div class="section-subtitle">Introduction</div>
+      <div class="section-content">{{{breaklines config.introduction}}}</div>
+      {{/if}}
+
+      <!-- Installation Scope -->
+      {{#if (hasContent config.installationScope)}}
+      <div class="section-subtitle">Installation Scope</div>
+      <div class="section-content">{{{breaklines config.installationScope}}}</div>
+      {{/if}}
+
+      <!-- Customer Provided Equipment & Services -->
+      {{#if (hasContent config.customerProvidedScope)}}
+      <div class="section-subtitle">Customer Provided Equipment & Services</div>
+      <div class="section-content">{{{breaklines config.customerProvidedScope}}}</div>
+      {{/if}}
+
+      <!-- Professional Services Scope (conditional) -->
+      {{#if showProServicesScope}}
+      <div class="section-subtitle">Professional Services Scope</div>
+      <div class="section-content">{{{breaklines config.proServicesScope}}}</div>
+      {{/if}}
+
+      <!-- Solutions Architect Scope (conditional) -->
+      {{#if showSolutionsArchitectScope}}
+      <div class="section-subtitle">Solutions Architect Scope</div>
+      <div class="section-content">{{{breaklines config.solutionsArchitectScope}}}</div>
+      {{/if}}
+
+      <!-- Constraints & Assumptions -->
+      {{#if (hasContent config.constraintsAssumptions)}}
+      <div class="section-subtitle">Constraints & Assumptions</div>
+      <div class="section-content">{{{breaklines config.constraintsAssumptions}}}</div>
+      {{/if}}
+
+      <!-- Exclusions -->
+      {{#if (hasContent config.exclusions)}}
+      <div class="section-subtitle">Exclusions</div>
+      <div class="section-content">{{{breaklines config.exclusions}}}</div>
+      {{/if}}
+
+      <!-- FOCUS Scope (conditional) -->
+      {{#if showFocusScope}}
+      <div class="section-subtitle">FOCUS Post-Installation Support</div>
+      <div class="section-content">{{{breaklines config.focusScope}}}</div>
+      {{/if}}
+    </div>
+  </div>
+
+  <!-- ==================== PROPOSAL DETAILS PAGE ==================== -->
+  <div class="content-page">
+    <div class="page-banner">
+      <span class="estimate-number">{{#if estimate}}{{estimate.tranId}}{{else}}{{config.estimateNumber}}{{/if}}</span>
+      <span class="label">Proposal Details</span>
+    </div>
+
+    <div class="page-body">
+      <div class="section-title">Proposal Details</div>
+
+      <!-- Contact Info Grid -->
+      <div class="info-grid">
+        <div class="info-block">
+          <div class="label">Site Address</div>
+          <div class="value">
+            {{#if (hasContent config.siteAddressOverride)}}
+            {{{breaklines config.siteAddressOverride}}}
+            {{else if customer}}
+            {{#if customer.shippingAddress}}
+            {{customer.shippingAddress.addr1}}<br>
+            {{#if customer.shippingAddress.addr2}}{{customer.shippingAddress.addr2}}<br>{{/if}}
+            {{customer.shippingAddress.city}}, {{customer.shippingAddress.state}} {{customer.shippingAddress.zip}}
+            {{else}}
+            See billing address
+            {{/if}}
+            {{else}}
+            Not specified
+            {{/if}}
+          </div>
+        </div>
+        <div class="info-block">
+          <div class="label">Billing Address</div>
+          <div class="value">
+            {{#if (hasContent config.billingAddressOverride)}}
+            {{{breaklines config.billingAddressOverride}}}
+            {{else if customer}}
+            {{#if customer.billingAddress}}
+            {{customer.billingAddress.addr1}}<br>
+            {{#if customer.billingAddress.addr2}}{{customer.billingAddress.addr2}}<br>{{/if}}
+            {{customer.billingAddress.city}}, {{customer.billingAddress.state}} {{customer.billingAddress.zip}}
+            {{/if}}
+            {{else}}
+            Not specified
+            {{/if}}
+          </div>
+        </div>
+        <div class="info-block">
+          <div class="label">Contact</div>
+          <div class="value">
+            {{#if config.contactFirstName}}
+            {{config.contactFirstName}} {{config.contactLastName}}<br>
+            {{/if}}
+            {{#if config.contactEmail}}
+            {{config.contactEmail}}
+            {{/if}}
+            {{#unless config.contactFirstName}}
+            {{#unless config.contactEmail}}
+            Not specified
+            {{/unless}}
+            {{/unless}}
+          </div>
+        </div>
+      </div>
+
+      <!-- Materials by Location -->
+      {{#if materialsByLocation.length}}
+      {{#each materialsByLocation}}
+      <div class="location-header {{#if (eq this.locationName "Subcontractor Materials")}}subcontractor{{/if}}{{#if (eq this.locationName "Miscellaneous")}}unassigned{{/if}}">
+        <span>{{this.locationName}}</span>
+        <span>{{formatCurrency this.subtotal}}</span>
+      </div>
+      <table>
+        <thead>
+          <tr>
+            <th style="width: 40px;" class="center">QTY</th>
+            <th style="width: 100px;">ITEM</th>
+            <th>DESCRIPTION</th>
+            <th class="right" style="width: 80px;">UNIT PRICE</th>
+            <th class="right" style="width: 70px;">TARIFF</th>
+            <th class="right" style="width: 90px;">EXT. PRICE</th>
+          </tr>
+        </thead>
+        <tbody>
+          {{#each this.items}}
+          <tr>
+            <td class="center">{{this.quantity}}</td>
+            <td>{{this.partNumber}}</td>
+            <td class="desc">{{this.description}}</td>
+            <td class="right">{{formatCurrency this.unitPrice}}</td>
+            <td class="right">{{formatCurrency this.tariffAmount}}</td>
+            <td class="right bold">{{formatCurrency this.extPrice}}</td>
+          </tr>
+          {{/each}}
+        </tbody>
+      </table>
+      {{/each}}
+
+      <div class="materials-total">
+        <span>Materials Total</span>
+        <span>{{formatCurrency summary.materialsTotal}}</span>
+      </div>
+      {{else}}
+      <div class="labor-header">Materials</div>
+      <div class="labor-content">
+        <p class="no-items">No materials have been added to this project.</p>
+      </div>
+      {{/if}}
+
+      <!-- Labor Section -->
+      <div class="labor-section">
+        <div class="labor-header">Labor Summary</div>
+        <div class="labor-content">
+          {{#if laborItems.length}}
+          {{#if config.consolidateLabor}}
+          <!-- Consolidated Labor View -->
+          <div class="labor-row">
+            <span class="label">Labor (Consolidated)</span>
+            <span class="value">{{formatCurrency summary.laborTotal}}</span>
+          </div>
+          {{else}}
+          <!-- Itemized Labor View -->
+          {{#each laborItems}}
+          <div class="labor-row">
+            <span class="label">{{this.description}}</span>
+            <span class="value">{{formatCurrency this.extPrice}}</span>
+          </div>
+          {{/each}}
+          <div class="labor-row total">
+            <span class="label">Labor Total</span>
+            <span class="value">{{formatCurrency summary.laborTotal}}</span>
+          </div>
+          {{/if}}
+          {{else}}
+          <p class="no-items">No labor has been added to this project.</p>
+          {{/if}}
+        </div>
+      </div>
+
+      <!-- Financial Summary -->
+      <div class="summary-section">
+        <div class="summary-title">Financial Summary</div>
+
+        <div class="summary-row">
+          <span class="label">Materials Total</span>
+          <span class="value">{{formatCurrency summary.materialsTotal}}</span>
+        </div>
+        {{#if summary.tariffTotal}}
+        <div class="summary-row">
+          <span class="label">Tariff Total</span>
+          <span class="value">{{formatCurrency summary.tariffTotal}}</span>
+        </div>
+        {{/if}}
+        <div class="summary-row">
+          <span class="label">Labor Total</span>
+          <span class="value">{{formatCurrency summary.laborTotal}}</span>
+        </div>
+        <div class="summary-row subtotal">
+          <span class="label">Subtotal</span>
+          <span class="value">{{formatCurrency summary.subtotal}}</span>
+        </div>
+        {{#if summary.indirectCost}}
+        <div class="summary-row">
+          <span class="label">Indirect Costs</span>
+          <span class="value">{{formatCurrency summary.indirectCost}}</span>
+        </div>
+        {{/if}}
+        <div class="summary-row total">
+          <span class="label">Purchase Price (Excl. Taxes)</span>
+          <span class="value">{{formatCurrency summary.grandTotal}}</span>
+        </div>
+
+        <p class="tax-note">
+          * Sales tax will be calculated and added to the final invoice based on the project location and applicable tax rates.
+        </p>
+      </div>
+
+      <!-- Signature Block -->
+      <div class="signature-section">
+        <div class="signature-block">
+          <h4>Client Acceptance</h4>
+          <div class="signature-line">
+            <span class="label">Date Accepted:</span>
+            <span class="line"></span>
+          </div>
+          <div class="signature-line">
+            <span class="label">Signature:</span>
+            <span class="line"></span>
+          </div>
+          <div class="signature-line">
+            <span class="label">Printed Name:</span>
+            <span class="line"></span>
+          </div>
+          <div class="signature-line">
+            <span class="label">Title:</span>
+            <span class="line"></span>
+          </div>
+          <div class="signature-line">
+            <span class="label">PO Number:</span>
+            <span class="line"></span>
+          </div>
+          <div class="signature-line">
+            <span class="label">Email:</span>
+            <span class="line"></span>
+          </div>
+        </div>
+
+        <div class="signature-block">
+          <h4>TSI Representative</h4>
+          <div class="signature-line">
+            <span class="label">Date Submitted:</span>
+            <span class="line"></span>
+          </div>
+          <div class="signature-line">
+            <span class="label">Signature:</span>
+            <span class="line"></span>
+          </div>
+          <div class="signature-line">
+            <span class="label">Submitted By:</span>
+            {{#if estimate}}
+            <span class="prefilled">{{estimate.salesRep}}</span>
+            {{else}}
+            <span class="line"></span>
+            {{/if}}
+          </div>
+          <div class="signature-line">
+            <span class="label">Title:</span>
+            <span class="prefilled">Account Manager</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== TERMS OF SALE PAGE ==================== -->
+  <div class="content-page">
+    <div class="page-banner">
+      <span class="estimate-number">{{#if estimate}}{{estimate.tranId}}{{else}}{{config.estimateNumber}}{{/if}}</span>
+      <span class="label">Terms of Sale</span>
+    </div>
+
+    <div class="page-body">
       <div class="section-title">Terms of Sale</div>
 
       <div class="terms-content">
@@ -840,11 +947,6 @@
         </p>
       </div>
     </div>
-  </div>
-
-  <!-- Footer (on all pages) -->
-  <div class="page-footer">
-    Generated {{formatDate generatedDate}} | {{#if estimate}}{{estimate.tranId}}{{else}}{{config.estimateNumber}}{{/if}} | Project Proposal v{{config.version}}
   </div>
 </body>
 </html>

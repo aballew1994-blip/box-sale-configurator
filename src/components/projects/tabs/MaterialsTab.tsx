@@ -118,6 +118,7 @@ export function MaterialsTab({ config, onConfigUpdate }: MaterialsTabProps) {
             showTariff={true}
             showMargin={true}
             allowCustomMargin={config.allowCustomMargin}
+            allowPriceEdit={true}
           />
         </div>
       </div>
@@ -174,6 +175,7 @@ export function MaterialsTab({ config, onConfigUpdate }: MaterialsTabProps) {
             showTariff={false}
             showMargin={true}
             allowCustomMargin={config.allowCustomMargin}
+            allowPriceEdit={true}
           />
         </div>
       </div>

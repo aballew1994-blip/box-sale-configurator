@@ -171,6 +171,9 @@ export interface Configuration {
   contactFirstName: string | null;
   contactLastName: string | null;
   contactEmail: string | null;
+  siteAddressOverride: string | null;
+  billingAddressOverride: string | null;
+  consolidateLabor: boolean;
   scopeOfWork: string | null;
   proposalSummary: string | null;
   shippingFee: number | string;
@@ -339,6 +342,18 @@ export async function deleteProjectLocation(
   return handleResponse<{ deleted: boolean }>(res);
 }
 
+// Project Proposal
+export async function downloadProjectProposal(configId: string): Promise<Blob> {
+  const res = await fetch(`${BASE}/api/projects/${configId}/proposal`, {
+    method: "POST",
+  });
+  if (!res.ok) {
+    const body = await res.json().catch(() => ({}));
+    throw new Error(body.error || "Failed to generate proposal");
+  }
+  return res.blob();
+}
+
 // Project Types
 export type ProjectLineCategory =
   | "TSI_PROVIDED_PARTS"
@@ -478,6 +493,9 @@ export interface ProjectConfiguration {
   contactFirstName: string | null;
   contactLastName: string | null;
   contactEmail: string | null;
+  siteAddressOverride: string | null;
+  billingAddressOverride: string | null;
+  consolidateLabor: boolean;
   introduction: string | null;
   termsType: string | null;
 
@@ -657,4 +675,73 @@ export async function deleteFieldOption(fieldId: string, optionId: string) {
     }
   );
   return handleResponse<{ deleted: boolean }>(res);
+}
+
+// ============================================================
+// MANUFACTURER TARIFFS
+// ============================================================
+
+export interface ManufacturerTariff {
+  id: string;
+  manufacturer: string;
+  tariffPercent: number | string;
+  isEnabled: boolean;
+  netsuiteItemId: string | null;
+  netsuiteItemNumber: string | null;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export async function getManufacturerTariffs() {
+  const res = await fetch(`${BASE}/api/admin/tariffs`);
+  return handleResponse<{ tariffs: ManufacturerTariff[] }>(res);
+}
+
+export async function getManufacturerTariff(id: string) {
+  const res = await fetch(`${BASE}/api/admin/tariffs/${id}`);
+  return handleResponse<{ tariff: ManufacturerTariff }>(res);
+}
+
+export async function createManufacturerTariff(data: {
+  manufacturer: string;
+  tariffPercent: number;
+  netsuiteItemId?: string | null;
+  netsuiteItemNumber?: string | null;
+}) {
+  const res = await fetch(`${BASE}/api/admin/tariffs`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(data),
+  });
+  return handleResponse<{ tariff: ManufacturerTariff }>(res);
+}
+
+export async function updateManufacturerTariff(
+  id: string,
+  data: Partial<Omit<ManufacturerTariff, "id" | "createdAt" | "updatedAt">>
+) {
+  const res = await fetch(`${BASE}/api/admin/tariffs/${id}`, {
+    method: "PATCH",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(data),
+  });
+  return handleResponse<{ tariff: ManufacturerTariff }>(res);
+}
+
+export async function deleteManufacturerTariff(id: string) {
+  const res = await fetch(`${BASE}/api/admin/tariffs/${id}`, {
+    method: "DELETE",
+  });
+  return handleResponse<{ deleted: boolean }>(res);
+}
+
+export async function lookupManufacturerTariff(manufacturer: string) {
+  const res = await fetch(
+    `${BASE}/api/admin/tariffs/lookup/${encodeURIComponent(manufacturer)}`
+  );
+  return handleResponse<{
+    manufacturer: string;
+    tariffPercent: number;
+    found: boolean;
+  }>(res);
 }

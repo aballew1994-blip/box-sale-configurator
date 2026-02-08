@@ -5,14 +5,16 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { TableFiltersTab } from "./tabs/TableFiltersTab";
 import { FormFieldsTab } from "./tabs/FormFieldsTab";
 import { NetSuiteMappingTab } from "./tabs/NetSuiteMappingTab";
+import { TariffMaintenanceTab } from "./tabs/TariffMaintenanceTab";
 
 const queryClient = new QueryClient();
 
-type TabId = "table-filters" | "form-fields" | "netsuite-mapping";
+type TabId = "table-filters" | "form-fields" | "tariff-maintenance" | "netsuite-mapping";
 
 const TABS: { id: TabId; label: string }[] = [
   { id: "table-filters", label: "Table Filters" },
   { id: "form-fields", label: "Form Fields" },
+  { id: "tariff-maintenance", label: "Tariff Maintenance" },
   { id: "netsuite-mapping", label: "NetSuite Mapping" },
 ];
 
@@ -49,7 +51,7 @@ function AdminPageContent() {
                   Admin Configuration
                 </h1>
                 <p className="text-sm text-muted-foreground">
-                  Manage table filters, form fields, and NetSuite mappings
+                  Manage table filters, form fields, tariffs, and NetSuite mappings
                 </p>
               </div>
             </div>
@@ -85,6 +87,7 @@ function AdminPageContent() {
       <main className="max-w-7xl mx-auto px-6 py-6">
         {activeTab === "table-filters" && <TableFiltersTab />}
         {activeTab === "form-fields" && <FormFieldsTab />}
+        {activeTab === "tariff-maintenance" && <TariffMaintenanceTab />}
         {activeTab === "netsuite-mapping" && <NetSuiteMappingTab />}
       </main>
     </div>

@@ -117,6 +117,7 @@ export function LaborTab({ config, onConfigUpdate }: LaborTabProps) {
                 showTariff={false}
                 showMargin={cat.hasMargin}
                 allowCustomMargin={config.allowCustomMargin}
+                allowPriceEdit={true}
               />
             </div>
           </div>

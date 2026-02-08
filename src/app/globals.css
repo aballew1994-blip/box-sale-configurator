@@ -6,79 +6,167 @@
   --tsi-red: #c6232a;
   --tsi-gray: #cccccc;
 
-  --background: #f7f8fa;
-  --foreground: #091e3f;
+  /* Core colors - refined */
+  --background: #f8fafc;
+  --foreground: #0f172a;
   --surface: #ffffff;
+  --surface-hover: #f8fafc;
   --card: #ffffff;
-  --card-foreground: #091e3f;
+  --card-foreground: #0f172a;
   --popover: #ffffff;
-  --popover-foreground: #091e3f;
-  --primary: #091e3f;
-  --primary-foreground: #ffffff;
-  --secondary: #f1f3f5;
-  --secondary-foreground: #091e3f;
-  --muted: #f1f3f5;
-  --muted-foreground: #5c6b7a;
-  --accent: #c6232a;
-  --accent-foreground: #ffffff;
-  --destructive: #c6232a;
-  --destructive-foreground: #ffffff;
-  --border: #dde1e6;
-  --input: #dde1e6;
-  --ring: #091e3f;
-  --radius: 0.5rem;
+  --popover-foreground: #0f172a;
 
-  --success: #16a34a;
-  --warning: #d97706;
-  --danger: #c6232a;
+  /* Primary - Navy */
+  --primary: #091e3f;
+  --primary-hover: #0c2850;
+  --primary-foreground: #ffffff;
+
+  /* Secondary - Subtle gray */
+  --secondary: #f1f5f9;
+  --secondary-hover: #e2e8f0;
+  --secondary-foreground: #334155;
+
+  /* Muted */
+  --muted: #f1f5f9;
+  --muted-foreground: #64748b;
+
+  /* Accent - Red */
+  --accent: #c6232a;
+  --accent-hover: #b01f25;
+  --accent-foreground: #ffffff;
+
+  /* Destructive */
+  --destructive: #dc2626;
+  --destructive-hover: #b91c1c;
+  --destructive-foreground: #ffffff;
+
+  /* Border */
+  --border: #e2e8f0;
+  --border-subtle: #f1f5f9;
+  --input: #e2e8f0;
+  --ring: #091e3f;
+
+  /* Shadows */
+  --shadow-xs: 0 1px 2px 0 rgb(0 0 0 / 0.03);
+  --shadow-sm: 0 1px 3px 0 rgb(0 0 0 / 0.06), 0 1px 2px -1px rgb(0 0 0 / 0.06);
+  --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.07), 0 2px 4px -2px rgb(0 0 0 / 0.05);
+  --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.08), 0 4px 6px -4px rgb(0 0 0 / 0.04);
+  --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.08), 0 8px 10px -6px rgb(0 0 0 / 0.04);
+
+  /* Status colors with backgrounds */
+  --status-success: #10b981;
+  --status-success-bg: #ecfdf5;
+  --status-success-text: #065f46;
+  --status-warning: #f59e0b;
+  --status-warning-bg: #fffbeb;
+  --status-warning-text: #92400e;
+  --status-error: #ef4444;
+  --status-error-bg: #fef2f2;
+  --status-error-text: #991b1b;
+  --status-info: #3b82f6;
+  --status-info-bg: #eff6ff;
+  --status-info-text: #1e40af;
+
+  /* Legacy status (keeping for compatibility) */
+  --success: #10b981;
+  --warning: #f59e0b;
+  --danger: #ef4444;
+
+  /* Radii */
+  --radius: 0.5rem;
+  --radius-sm: 0.375rem;
+  --radius-md: 0.5rem;
+  --radius-lg: 0.75rem;
+  --radius-xl: 1rem;
+  --radius-2xl: 1.5rem;
+  --radius-full: 9999px;
 }
 
 .dark {
-  --background: #091e3f;
+  --background: #0f172a;
   --foreground: #f1f5f9;
-  --surface: #0d2a52;
-  --card: #0d2a52;
+  --surface: #1e293b;
+  --surface-hover: #334155;
+  --card: #1e293b;
   --card-foreground: #f1f5f9;
-  --popover: #0d2a52;
+  --popover: #1e293b;
   --popover-foreground: #f1f5f9;
-  --primary: #4a9eff;
-  --primary-foreground: #091e3f;
-  --secondary: #132d54;
-  --secondary-foreground: #f1f5f9;
-  --muted: #132d54;
-  --muted-foreground: #94a3b8;
-  --accent: #e63946;
-  --accent-foreground: #ffffff;
-  --destructive: #e63946;
-  --destructive-foreground: #ffffff;
-  --border: #1a3a66;
-  --input: #1a3a66;
-  --ring: #4a9eff;
 
-  --success: #22c55e;
-  --warning: #f59e0b;
-  --danger: #e63946;
+  --primary: #60a5fa;
+  --primary-hover: #3b82f6;
+  --primary-foreground: #0f172a;
+
+  --secondary: #334155;
+  --secondary-hover: #475569;
+  --secondary-foreground: #f1f5f9;
+
+  --muted: #334155;
+  --muted-foreground: #94a3b8;
+
+  --accent: #f87171;
+  --accent-hover: #ef4444;
+  --accent-foreground: #0f172a;
+
+  --destructive: #f87171;
+  --destructive-hover: #ef4444;
+  --destructive-foreground: #0f172a;
+
+  --border: #334155;
+  --border-subtle: #1e293b;
+  --input: #334155;
+  --ring: #60a5fa;
+
+  /* Shadows - darker for dark mode */
+  --shadow-xs: 0 1px 2px 0 rgb(0 0 0 / 0.2);
+  --shadow-sm: 0 1px 3px 0 rgb(0 0 0 / 0.3), 0 1px 2px -1px rgb(0 0 0 / 0.3);
+  --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.4), 0 2px 4px -2px rgb(0 0 0 / 0.3);
+  --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.4), 0 4px 6px -4px rgb(0 0 0 / 0.3);
+  --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.5), 0 8px 10px -6px rgb(0 0 0 / 0.4);
+
+  /* Status colors - dark mode */
+  --status-success: #34d399;
+  --status-success-bg: #064e3b;
+  --status-success-text: #a7f3d0;
+  --status-warning: #fbbf24;
+  --status-warning-bg: #78350f;
+  --status-warning-text: #fde68a;
+  --status-error: #f87171;
+  --status-error-bg: #7f1d1d;
+  --status-error-text: #fecaca;
+  --status-info: #60a5fa;
+  --status-info-bg: #1e3a5f;
+  --status-info-text: #bfdbfe;
+
+  --success: #34d399;
+  --warning: #fbbf24;
+  --danger: #f87171;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-surface: var(--surface);
+  --color-surface-hover: var(--surface-hover);
   --color-card: var(--card);
   --color-card-foreground: var(--card-foreground);
   --color-popover: var(--popover);
   --color-popover-foreground: var(--popover-foreground);
   --color-primary: var(--primary);
+  --color-primary-hover: var(--primary-hover);
   --color-primary-foreground: var(--primary-foreground);
   --color-secondary: var(--secondary);
+  --color-secondary-hover: var(--secondary-hover);
   --color-secondary-foreground: var(--secondary-foreground);
   --color-muted: var(--muted);
   --color-muted-foreground: var(--muted-foreground);
   --color-accent: var(--accent);
+  --color-accent-hover: var(--accent-hover);
   --color-accent-foreground: var(--accent-foreground);
   --color-destructive: var(--destructive);
+  --color-destructive-hover: var(--destructive-hover);
   --color-destructive-foreground: var(--destructive-foreground);
   --color-border: var(--border);
+  --color-border-subtle: var(--border-subtle);
   --color-input: var(--input);
   --color-ring: var(--ring);
   --radius: var(--radius);
@@ -86,12 +174,35 @@
   --color-success: var(--success);
   --color-warning: var(--warning);
   --color-danger: var(--danger);
+
+  /* Status color mappings */
+  --color-status-success: var(--status-success);
+  --color-status-success-bg: var(--status-success-bg);
+  --color-status-success-text: var(--status-success-text);
+  --color-status-warning: var(--status-warning);
+  --color-status-warning-bg: var(--status-warning-bg);
+  --color-status-warning-text: var(--status-warning-text);
+  --color-status-error: var(--status-error);
+  --color-status-error-bg: var(--status-error-bg);
+  --color-status-error-text: var(--status-error-text);
+  --color-status-info: var(--status-info);
+  --color-status-info-bg: var(--status-info-bg);
+  --color-status-info-text: var(--status-info-text);
+
+  /* Shadow mappings */
+  --shadow-xs: var(--shadow-xs);
+  --shadow-sm: var(--shadow-sm);
+  --shadow-md: var(--shadow-md);
+  --shadow-lg: var(--shadow-lg);
+  --shadow-xl: var(--shadow-xl);
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: system-ui, -apple-system, sans-serif;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 /* Collapsible animation */
@@ -142,6 +253,32 @@ html {
   }
 }
 
+/* Slide up animation for modals */
+@keyframes slide-up {
+  from {
+    opacity: 0;
+    transform: translateY(8px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.animate-slide-up {
+  animation: slide-up 200ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Fade animation for overlays */
+@keyframes fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.animate-fade-in {
+  animation: fade-in 150ms ease-out;
+}
+
 /* Custom scrollbar */
 ::-webkit-scrollbar {
   width: 8px;
@@ -166,3 +303,17 @@ html {
   outline: 2px solid var(--ring);
   outline-offset: 2px;
 }
+
+/* Button focus override - use ring instead */
+button:focus-visible,
+[role="button"]:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 2px var(--background), 0 0 0 4px var(--ring);
+}
+
+/* Utility classes */
+.shadow-xs { box-shadow: var(--shadow-xs); }
+.shadow-sm { box-shadow: var(--shadow-sm); }
+.shadow-md { box-shadow: var(--shadow-md); }
+.shadow-lg { box-shadow: var(--shadow-lg); }
+.shadow-xl { box-shadow: var(--shadow-xl); }

@@ -22,6 +22,7 @@ interface ProjectPartsTableProps {
   showTariff?: boolean;
   showMargin?: boolean;
   allowCustomMargin?: boolean;
+  allowPriceEdit?: boolean;
 }
 
 export function ProjectPartsTable({
@@ -32,7 +33,10 @@ export function ProjectPartsTable({
   showTariff = false,
   showMargin = false,
   allowCustomMargin = false,
+  allowPriceEdit,
 }: ProjectPartsTableProps) {
+  // allowPriceEdit defaults to allowCustomMargin if not specified
+  const canEditPrice = allowPriceEdit ?? allowCustomMargin;
   const items = config.lineItems.filter((li) => li.category === category);
 
   const fmt = (n: number | string) =>
@@ -163,7 +167,7 @@ export function ProjectPartsTable({
                 showLocation={showLocation}
                 showTariff={showTariff}
                 showMargin={showMargin}
-                allowCustomMargin={allowCustomMargin}
+                allowPriceEdit={canEditPrice}
                 onUpdateQty={(qty) =>
                   updateMutation.mutate({
                     lineId: li.id,
@@ -174,6 +178,12 @@ export function ProjectPartsTable({
                   updateMutation.mutate({
                     lineId: li.id,
                     data: { productPrice: price, priceOverride: true },
+                  })
+                }
+                onUpdateMargin={(margin) =>
+                  updateMutation.mutate({
+                    lineId: li.id,
+                    data: { targetMargin: margin },
                   })
                 }
                 onUpdateLocation={(locationId) =>
@@ -202,9 +212,10 @@ interface ProjectPartsTableRowProps {
   showLocation: boolean;
   showTariff: boolean;
   showMargin: boolean;
-  allowCustomMargin: boolean;
+  allowPriceEdit: boolean;
   onUpdateQty: (qty: number) => void;
   onUpdatePrice: (price: number) => void;
+  onUpdateMargin: (margin: number) => void;
   onUpdateLocation: (locationId: string | null) => void;
   onDelete: () => void;
   isUpdating: boolean;
@@ -219,9 +230,10 @@ function ProjectPartsTableRow({
   showLocation,
   showTariff,
   showMargin,
-  allowCustomMargin,
+  allowPriceEdit,
   onUpdateQty,
   onUpdatePrice,
+  onUpdateMargin,
   onUpdateLocation,
   onDelete,
   isUpdating,
@@ -230,9 +242,13 @@ function ProjectPartsTableRow({
 }: ProjectPartsTableRowProps) {
   const [editingQty, setEditingQty] = useState(false);
   const [editingPrice, setEditingPrice] = useState(false);
+  const [editingMargin, setEditingMargin] = useState(false);
   const [qtyValue, setQtyValue] = useState(String(li.quantity));
   const [priceValue, setPriceValue] = useState(
     String(Number(li.productPrice))
+  );
+  const [marginInputValue, setMarginInputValue] = useState(
+    String((Number(li.margin) * 100).toFixed(1))
   );
 
   const marginValue = Number(li.margin);
@@ -306,9 +322,9 @@ function ProjectPartsTableRow({
 
       <td className="px-3 py-2.5 text-right">{fmt(li.unitCost)}</td>
 
-      {/* Unit Price — editable if custom margin allowed */}
+      {/* Unit Price — editable if allowPriceEdit is true */}
       <td className="px-3 py-2.5 text-right">
-        {allowCustomMargin && editingPrice ? (
+        {allowPriceEdit && editingPrice ? (
           <input
             type="number"
             className="w-20 px-1 py-0.5 border border-primary/30 rounded text-right text-sm focus:outline-none focus:ring-1 focus:ring-primary/50"
@@ -334,11 +350,11 @@ function ProjectPartsTableRow({
         ) : (
           <button
             className={
-              allowCustomMargin
+              allowPriceEdit
                 ? "border-b border-dashed border-muted-foreground/40 hover:border-primary cursor-pointer transition-colors"
                 : "cursor-default"
             }
-            onClick={() => allowCustomMargin && setEditingPrice(true)}
+            onClick={() => allowPriceEdit && setEditingPrice(true)}
           >
             {fmt(li.productPrice)}
           </button>
@@ -357,10 +373,48 @@ function ProjectPartsTableRow({
         {fmt(li.totalPrice)}
       </td>
 
-      {/* Margin column */}
+      {/* Margin column - editable if allowPriceEdit is true */}
       {showMargin && (
         <td className={`px-3 py-2.5 text-right font-medium ${marginColor}`}>
-          {pctFmt(li.margin)}%
+          {allowPriceEdit && editingMargin ? (
+            <input
+              type="number"
+              className="w-16 px-1 py-0.5 border border-primary/30 rounded text-right text-sm focus:outline-none focus:ring-1 focus:ring-primary/50"
+              value={marginInputValue}
+              onChange={(e) => setMarginInputValue(e.target.value)}
+              onBlur={() => {
+                setEditingMargin(false);
+                const v = parseFloat(marginInputValue);
+                if (!isNaN(v) && v >= 0 && v <= 100 && v / 100 !== Number(li.margin)) {
+                  onUpdateMargin(v / 100);
+                } else {
+                  setMarginInputValue(String((Number(li.margin) * 100).toFixed(1)));
+                }
+              }}
+              onKeyDown={(e) => {
+                if (e.key === "Enter") (e.target as HTMLInputElement).blur();
+                if (e.key === "Escape") {
+                  setMarginInputValue(String((Number(li.margin) * 100).toFixed(1)));
+                  setEditingMargin(false);
+                }
+              }}
+              autoFocus
+              step="0.1"
+              min="0"
+              max="100"
+            />
+          ) : (
+            <button
+              className={
+                allowPriceEdit
+                  ? "border-b border-dashed border-muted-foreground/40 hover:border-primary cursor-pointer transition-colors"
+                  : "cursor-default"
+              }
+              onClick={() => allowPriceEdit && setEditingMargin(true)}
+            >
+              {pctFmt(li.margin)}%
+            </button>
+          )}
         </td>
       )}
 

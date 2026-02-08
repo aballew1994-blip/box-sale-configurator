@@ -1,6 +1,7 @@
 import { prisma } from "@/lib/db";
 import { getEstimate } from "@/lib/netsuite/estimates";
 import { computeLineItem } from "@/lib/utils/calculations";
+import { lookupTariffByManufacturer } from "@/lib/services/manufacturerTariff";
 import type { Prisma } from "@prisma/client";
 import type { AddLineItemInput, UpdateLineItemInput } from "@/lib/schemas/lineItem";
 
@@ -80,6 +81,12 @@ export async function addLineItem(configId: string, input: AddLineItemInput) {
 
   if (!config) throw new Error("Configuration not found");
 
+  // Auto-lookup tariff if not provided and manufacturer is specified
+  let tariffPercent = input.tariffPercent ?? 0;
+  if (tariffPercent === 0 && input.manufacturer) {
+    tariffPercent = await lookupTariffByManufacturer(input.manufacturer);
+  }
+
   const targetMargin = input.targetMargin ?? Number(config.defaultMargin);
   const computed = computeLineItem({
     unitCost: input.unitCost,
@@ -87,7 +94,7 @@ export async function addLineItem(configId: string, input: AddLineItemInput) {
     targetMargin,
     productPrice: input.productPrice ?? 0,
     priceOverride: !!input.productPrice,
-    tariffPercent: input.tariffPercent ?? 0,
+    tariffPercent,
   });
 
   const nextLineNumber =
@@ -108,7 +115,7 @@ export async function addLineItem(configId: string, input: AddLineItemInput) {
       targetMargin,
       productPrice: computed.productPrice,
       priceOverride: !!input.productPrice,
-      tariffPercent: input.tariffPercent ?? 0,
+      tariffPercent,
       tariffAmount: computed.tariffAmount,
       margin: computed.margin,
       extCost: computed.extCost,
