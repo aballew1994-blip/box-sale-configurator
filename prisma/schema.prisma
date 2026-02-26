@@ -115,10 +115,13 @@ model Configuration {
   defaultMargin Decimal @default(0.30) @db.Decimal(5, 4)
 
   // Proposal fields
-  contactFirstName String?
-  contactLastName  String?
-  contactEmail     String?
-  scopeOfWork      String? @db.Text
+  contactFirstName        String?
+  contactLastName         String?
+  contactEmail            String?
+  siteAddressOverride     String?  @db.Text
+  billingAddressOverride  String?  @db.Text
+  consolidateLabor        Boolean  @default(false)
+  scopeOfWork             String?  @db.Text
   proposalSummary  String? @db.Text
 
   // Shipping
@@ -291,11 +294,14 @@ model ProjectConfiguration {
   focusScope              String? @db.Text
 
   // === Proposal Details ===
-  contactFirstName String?
-  contactLastName  String?
-  contactEmail     String?
-  introduction     String?    @db.Text
-  termsType        TermsType?
+  contactFirstName        String?
+  contactLastName         String?
+  contactEmail            String?
+  siteAddressOverride     String?    @db.Text
+  billingAddressOverride  String?    @db.Text
+  consolidateLabor        Boolean    @default(false)
+  introduction            String?    @db.Text
+  termsType               TermsType?
 
   // Pricing
   defaultMargin Decimal @default(0.30) @db.Decimal(5, 4)
@@ -436,4 +442,22 @@ model FieldOption {
 
   @@unique([fieldId, value])
   @@index([fieldId])
+}
+
+// Manufacturer tariff configuration for auto-populating tariff % on line items
+model ManufacturerTariff {
+  id                 String  @id @default(cuid())
+  manufacturer       String  @unique
+  tariffPercent      Decimal @default(0) @db.Decimal(5, 2)
+  isEnabled          Boolean @default(true)
+  netsuiteItemId     String?
+  netsuiteItemNumber String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  createdBy String   @default("system")
+  updatedBy String   @default("system")
+
+  @@index([manufacturer])
+  @@index([isEnabled])
 }
